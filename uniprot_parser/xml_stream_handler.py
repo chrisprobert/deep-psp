@@ -76,8 +76,8 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       if ' ' in v : v = v.replace(' ', '-')
       return v
 
-    for line in entry_lines :
-      try :
+    try :
+      for line in entry_lines :
         l = line.strip()
         if checkIfMatch(l, '<accession>') :
           _id = extractAttr(l)
@@ -97,11 +97,13 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
         elif checkIfMatch(l, '</feature') :
           _annotation_set.append(cur_feature)
 
-      except :
-        print('error in stream handler. line:\n' + line)
-        raise
+      self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
-    self.storeIdAnotSeq(_id,_annotation_set,_seq)
+    except :
+      print('error in stream handler. line:\n' + line)
+      
+
+    
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
     """
