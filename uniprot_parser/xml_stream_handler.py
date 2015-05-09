@@ -87,7 +87,7 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       elif len(l) > 9 and l[:9] == '</feature' :
         _annotation_set.append(cur_feature)
 
-    return _id, _seq, _annotation_set
+    self.storeIdAnotSeq(_id, _seq, _annotation_set)
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
     """
