@@ -16,7 +16,7 @@ export UNIPROT_DIR=${PI_HOME}/uniprot_data/
 export UNIPROT_XML=${UNIPROT_DIR}uniprot.xml
 
 # output TSV file
-export UNIPROT_TSV=${UNIPROT_XML}uniprot.xml.tsv
+export UNIPROT_TSV=${UNIPROT_XML}.tsv
 
 
 python ${SOURCE_DIR}xml_to_tsv.py --uniprotXML ${UNIPROT_XML} --outputTSV ${UNIPROT_TSV}
