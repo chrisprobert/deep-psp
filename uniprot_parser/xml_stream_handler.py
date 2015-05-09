@@ -76,18 +76,20 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       elif len(l) > 8 and l[:8] == '<feature' :
         cur_feature = sequence_feature()
         if 'description' in l :
-          cur_feature.description = l[l.index('description'):].split('"')[1].replace(' ', '-')
+          cur_feature.description = l[l.index('description'):].split('"')[1]
+          if ' ' in cur_feature.description : cur_feature.description = cur_feature.description.replace(' ', '-')
         if 'type' in l :
-          cur_feature.type = l[l.index('description'):].split('"')[1].replace(' ', '-')
+          cur_feature.type = l[l.index('type'):].split('"')[1]
+          if ' ' in cur_feature.type : cur_feature.type = cur_feature.type.replace(' ', '-')
       elif len(l) > 6 and l[:6] == '<begin' :
         cur_feature.begin_end_poss.append(int(l[l.index('position'):].split('"')[1]))
       elif len(l) > 4 and l[:4] == '<end' :
-        cur_feature.begin_end_poss[-1] = 
+        cur_feature.begin_end_poss[-1] = \
           (cur_feature.begin_end_poss[-1], (int(l[l.index('position'):].split('"')[1])))
       elif len(l) > 9 and l[:9] == '</feature' :
         _annotation_set.append(cur_feature)
 
-    self.storeIdAnotSeq(_id, _seq, _annotation_set)
+    self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
     """
@@ -108,8 +110,7 @@ class xml_id_annot_seq_to_file(xml_stream_id_anot_seq) :
   def __init__(self, filename) :
     super(xml_id_annot_seq_to_file, self).__init__()
     self.writer = open(filename, 'w')
-    writer.write('')
-    self.writer.write('%s\t%s\t%s\t%d\t%d\t%s\n' % 
+    self.writer.write('%s\t%s\t%s\t%s\t%s\t%s\n' % 
       ('id', 'seq_feature.type', 'seq_feature.description', 'start', 'stop', 'seq'))
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
