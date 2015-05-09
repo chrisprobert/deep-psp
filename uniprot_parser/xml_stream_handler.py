@@ -69,6 +69,12 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
 
     def checkIfMatch(l, s) : return len(l) >= len(s) and l[:len(s)] == s
     def extractAttr(l) : return l.split('>')[1].split('<')[0]
+    def getValueOf(l, t) : return l[l.index(t):].split('"')[1]
+    def getIntValueOf(l, t) : return int(getValueOf(l, t))
+    def getValueOfNoSpaces(l, t) :
+      v = getValueOf(l,t)
+      if ' ' in v : v = v.replace(' ', '-')
+      return v
 
     for line in entry_lines :
       try :
@@ -79,24 +85,21 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
           _seq = extractAttr(l)
         elif checkIfMatch(l, '<feature') :
           cur_feature = sequence_feature()
-          if 'description' in l :
-            cur_feature.description = l[l.index('description'):].split('"')[1]
-            if ' ' in cur_feature.description :
-              cur_feature.description = cur_feature.description.replace(' ', '-')
-          if 'type' in l :
-            cur_feature.type = l[l.index('type'):].split('"')[1]
-            if ' ' in cur_feature.type : cur_feature.type = \
-              cur_feature.type.replace(' ', '-')
+          if 'description=' in l :
+            cur_feature.description = getValueOfNoSpaces(l, 'description')
+          if 'type=' in l :
+            cur_feature.type = getValueOfNoSpaces(l, 'type')
         elif checkIfMatch(l, '<begin position') :
-          cur_feature.begin_end_poss.append(int(l[l.index('position'):].split('"')[1]))
+          cur_feature.begin_end_poss.append(getIntValueOf(l, '<begin position'))
         elif checkIfMatch(l, '<end position') :
           cur_feature.begin_end_poss[-1] = \
-            (cur_feature.begin_end_poss[-1], (int(l[l.index('position'):].split('"')[1])))
+            (cur_feature.begin_end_poss[-1], getIntValueOf(l, '<end position'))
         elif checkIfMatch(l, '</feature') :
           _annotation_set.append(cur_feature)
 
-      except ValueError:
-        print('error in stream handler. line:\n' + line) 
+      except :
+        print('error in stream handler. line:\n' + line)
+        raise
 
     self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
