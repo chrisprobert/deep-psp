@@ -67,27 +67,36 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
     _seq = ''
     _annotation_set = []
 
+    def checkIfMatch(l, s) : return len(l) >= len(s) and l[:len(s)] == s
+    def extractAttr(l) : return l.split('>')[1].split('<')[0]
+
     for line in entry_lines :
-      l = line.strip()
-      if len(l) > 11 and l[:11].strip() == '<accession>' :
-        _id = l.split('>')[1].split('<')[0]
-      elif len(l) > 9 and l[:9].strip() == '<sequence' :
-        _seq = l.split('>')[1].split('<')[0]
-      elif len(l) > 8 and l[:8] == '<feature' :
-        cur_feature = sequence_feature()
-        if 'description' in l :
-          cur_feature.description = l[l.index('description'):].split('"')[1]
-          if ' ' in cur_feature.description : cur_feature.description = cur_feature.description.replace(' ', '-')
-        if 'type' in l :
-          cur_feature.type = l[l.index('type'):].split('"')[1]
-          if ' ' in cur_feature.type : cur_feature.type = cur_feature.type.replace(' ', '-')
-      elif len(l) > 6 and l[:6] == '<begin' :
-        cur_feature.begin_end_poss.append(int(l[l.index('position'):].split('"')[1]))
-      elif len(l) > 4 and l[:4] == '<end' :
-        cur_feature.begin_end_poss[-1] = \
-          (cur_feature.begin_end_poss[-1], (int(l[l.index('position'):].split('"')[1])))
-      elif len(l) > 9 and l[:9] == '</feature' :
-        _annotation_set.append(cur_feature)
+      try :
+        l = line.strip()
+        if checkIfMatch(l, '<accession>') :
+          _id = extractAttr(l)
+        elif checkIfMatch(l, '<sequence') :
+          _seq = extractAttr(l)
+        elif checkIfMatch(l, '<feature') :
+          cur_feature = sequence_feature()
+          if 'description' in l :
+            cur_feature.description = l[l.index('description'):].split('"')[1]
+            if ' ' in cur_feature.description :
+              cur_feature.description = cur_feature.description.replace(' ', '-')
+          if 'type' in l :
+            cur_feature.type = l[l.index('type'):].split('"')[1]
+            if ' ' in cur_feature.type : cur_feature.type = \
+              cur_feature.type.replace(' ', '-')
+        elif checkIfMatch(l, '<begin position') :
+          cur_feature.begin_end_poss.append(int(l[l.index('position'):].split('"')[1]))
+        elif checkIfMatch(l, '<end position') :
+          cur_feature.begin_end_poss[-1] = \
+            (cur_feature.begin_end_poss[-1], (int(l[l.index('position'):].split('"')[1])))
+        elif checkIfMatch(l, '</feature') :
+          _annotation_set.append(cur_feature)
+
+      except ValueError:
+        print('error in stream handler. line:\n' + line) 
 
     self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
