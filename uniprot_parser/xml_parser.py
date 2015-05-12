@@ -23,7 +23,7 @@ class xml_parser(object) :
     
     total_num_lines = int(check_output(['wc', '-l', filename]).strip().split()[0])
     line_count = 0
-    print_every = 10000
+    print_every = 1000000
 
     def checkIfMatch(l, s) : return len(l) >= len(s) and l[:len(s)] == s
 
@@ -41,7 +41,7 @@ class xml_parser(object) :
         cur_entry_lines = []
 
       cur_entry_lines.append(line)
-      
+
     self.stream_handler.processEntry(cur_entry_lines)
     print('processed %d/%d lines (%.1f)' %
       (line_count, total_num_lines, float(line_count)/total_num_lines))
