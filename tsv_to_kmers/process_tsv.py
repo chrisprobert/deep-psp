@@ -36,6 +36,7 @@ def filterTSV(annot, maxlen, minlen, input_tsv, output_path) :
 	with open(output_path, 'w') as out_f :
 		for line in open(input_tsv) :
 			l = line.strip().split('\t')
+			print l
 			if len(l) < 6 or l[1] != annot : continue
 			start = int(l[3])
 			stop = int(l[4])
