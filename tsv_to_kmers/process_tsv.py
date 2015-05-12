@@ -23,7 +23,8 @@ def main() :
 	parser.add_argument('--maxlen', help='maximum length', required=True)
 	args = parser.parse_args()
 
-	filterTSV(args.annot, args.maxlen, args.minlen, args.inputTSV, args.outputTSV)
+	filterTSV(annot=args.annot, maxlen=args.maxlen, minlen=args.minlen,
+		input_tsv=args.inputTSV, output_path=args.outputTSV)
 
 def filterTSV(annot, maxlen, minlen, input_tsv, output_path) :
 
@@ -34,7 +35,7 @@ def filterTSV(annot, maxlen, minlen, input_tsv, output_path) :
 
 	with open(output_path, 'w') as out_f :
 		for line in open(input_tsv) :
-			l = line.split('\t')
+			l = line.strip().split('\t')
 			if len(l) < 6 or l[1] != annot : continue
 			start = int(l[3])
 			stop = int(l[4])
