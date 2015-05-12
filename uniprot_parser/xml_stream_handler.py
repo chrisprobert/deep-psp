@@ -76,6 +76,8 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       if ' ' in v : v = v.replace(' ', '-')
       return v
 
+
+
     try :
       for i, line in enumerate(entry_lines) :
         l = line.strip()
@@ -92,7 +94,7 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
         elif checkIfMatch(l, '<begin position') :
           begin_pos = getIntValueOf(l, '<begin position')
         elif checkIfMatch(l, '<end position') :
-          cur_feature.begin_end_poss.append(begin_pos, getIntValueOf(l, '<end position'))
+          cur_feature.begin_end_poss.append((begin_pos, getIntValueOf(l, '<end position')))
         elif checkIfMatch(l, '</feature') :
           _annotation_set.append(cur_feature)
 
