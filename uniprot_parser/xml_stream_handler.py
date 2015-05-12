@@ -124,7 +124,7 @@ class xml_id_annot_seq_to_file(xml_stream_id_anot_seq) :
   def __init__(self, filename, debug=False) :
     super(xml_id_annot_seq_to_file, self).__init__(debug)
     self.writer = open(filename, 'w')
-    self.writer.write('%s\t%s\t%s\t%s\t%s\t%s\n' % 
+    self.writer.write('#%s\t%s\t%s\t%s\t%s\t%s\n' % 
       ('id', 'seq_feature.type', 'seq_feature.description', 'start', 'stop', 'seq'))
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
