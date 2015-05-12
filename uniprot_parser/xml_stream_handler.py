@@ -77,7 +77,7 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       return v
 
     try :
-      for line in entry_lines :
+      for i, line in enumerate(entry_lines) :
         l = line.strip()
         if checkIfMatch(l, '<accession>') :
           _id = extractAttr(l)
@@ -86,21 +86,20 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
         elif checkIfMatch(l, '<feature') :
           cur_feature = sequence_feature()
           if 'description=' in l :
-            cur_feature.description = getValueOfNoSpaces(l, 'description')
+            cur_feature.description = getValueOfNoSpaces(l, 'description=')
           if 'type=' in l :
-            cur_feature.type = getValueOfNoSpaces(l, 'type')
+            cur_feature.type = getValueOfNoSpaces(l, 'type=')
         elif checkIfMatch(l, '<begin position') :
-          cur_feature.begin_end_poss.append(getIntValueOf(l, '<begin position'))
+          begin_pos = getIntValueOf(l, '<begin position')
         elif checkIfMatch(l, '<end position') :
-          cur_feature.begin_end_poss[-1] = \
-            (cur_feature.begin_end_poss[-1], getIntValueOf(l, '<end position'))
+          cur_feature.begin_end_poss.append(begin_pos, getIntValueOf(l, '<end position'))
         elif checkIfMatch(l, '</feature') :
           _annotation_set.append(cur_feature)
 
       self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
     except :
-      print('error in stream handler. line:\n' + line)
+      print('error in stream handler. line %d :\n' % i + line)
       
 
     
@@ -135,8 +134,10 @@ class xml_id_annot_seq_to_file(xml_stream_id_anot_seq) :
 
     for seq_feature in _annotation_set :
       for (start,stop) in seq_feature.begin_end_poss :
+        self.entryCount += 1
         self.writer.write('%s\t%s\t%s\t%d\t%d\t%s\n' % 
           (_id, seq_feature.type, seq_feature.description, start, stop, _seq))
 
   def finalize(self) :
+    print('Closing stream handler. Wrote %d entries.' % self.entryCount)
     self.writer.close()

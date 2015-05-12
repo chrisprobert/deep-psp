@@ -25,6 +25,8 @@ class xml_parser(object) :
     line_count = 0
     print_every = 10000
 
+    def checkIfMatch(l, s) : return len(l) >= len(s) and l[:len(s)] == s
+
     cur_entry_lines = []
 
     for line in open(filename, 'r') :
@@ -33,12 +35,14 @@ class xml_parser(object) :
           (line_count, total_num_lines, float(line_count)/total_num_lines))
       line_count += 1
 
-      if len(line) > 6 and line[:6] == '<entry' :
+      if checkIfMatch(line, '<entry') :
         if cur_entry_lines :
           self.stream_handler.processEntry(cur_entry_lines)
         cur_entry_lines = []
 
       cur_entry_lines.append(line)
+      
+    self.stream_handler.processEntry(cur_entry_lines)
     print('processed %d/%d lines (%.1f)' %
       (line_count, total_num_lines, float(line_count)/total_num_lines))
 
