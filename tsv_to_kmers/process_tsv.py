@@ -34,14 +34,13 @@ def filterTSV(annot, maxlen, minlen, input_tsv, output_path) :
 
 	with open(output_path, 'w') as out_f :
 		for line in open(input_tsv) :
-			if len(line) < 1 or line[0] == '#' : continue
 			l = line.split('\t')
-			if l[1] != annot : continue
+			if len(l) < 6 or l[1] != annot : continue
 			start = int(l[3])
 			stop = int(l[4])
 			length = stop - start
 			if length < minlen or length > maxlen : continue
-			seq = l[5]
+			seq = l[5][start-1:stop-1] # positions are 1-based
 			out_f.write('%s\t%s\t%s\t%s' % (l[0], l[1], l[2], seq))
 
 if __name__ == '__main__' : main()
