@@ -53,8 +53,9 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
   Not a final class; provides an interface for storing these attributes.
   """
 
-  def __init__(self) :
+  def __init__(self, debug=False) :
     super(xml_stream_id_anot_seq, self).__init__()
+    self.debug = debug
 
   def processEntry(self, entry_lines) :
     """
@@ -101,10 +102,8 @@ class xml_stream_id_anot_seq(xml_stream_handler) :
       self.storeIdAnotSeq(_id,_annotation_set,_seq)
 
     except :
-      print('error in stream handler. line %d :\n' % i + line)
+      if self.debug : print('error in stream handler. line %d :\n' % i + line)
       
-
-    
 
   def storeIdAnotSeq(self,_id,_annotation_set,_seq) :
     """
@@ -122,8 +121,8 @@ class xml_id_annot_seq_to_file(xml_stream_id_anot_seq) :
   in the output tsv file.
   """
 
-  def __init__(self, filename) :
-    super(xml_id_annot_seq_to_file, self).__init__()
+  def __init__(self, filename, debug=False) :
+    super(xml_id_annot_seq_to_file, self, debug).__init__()
     self.writer = open(filename, 'w')
     self.writer.write('%s\t%s\t%s\t%s\t%s\t%s\n' % 
       ('id', 'seq_feature.type', 'seq_feature.description', 'start', 'stop', 'seq'))
