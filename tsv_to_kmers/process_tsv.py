@@ -38,6 +38,6 @@ def filterTSV(annot, input_tsv, output_path) :
 			stop = int(l[4])
 			length = stop - start
 			seq = l[5][start-1:stop-1] # positions are 1-based
-			out_f.write('%s\t%s\t%s\t%s' % (l[0], l[1], l[2], seq))
+			out_f.write('%s\t%s\t%s\t%s\n' % (l[0], l[1], l[2], seq))
 
 if __name__ == '__main__' : main()
