@@ -19,6 +19,8 @@ export features_out=${tsv_in}.features.tsv
 # kmer list file
 export kmer_list=${tsv_in}.kmer_list.txt
 
+# sorted kmer list file
+export sort_kmer_list=${tsv_in}.sorted_kmer_list.txt
 
 #
 # Write kmers to the kmer file
@@ -29,10 +31,10 @@ export kmer_list=${tsv_in}.kmer_list.txt
 #
 # Process the kmer file
 #
-cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n${num_conts}
+cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n 200 > $sort_kmer_list
 
 
 #
 # Write the feature matrix
 #
-./sortedKmers_to_features.py --inputTSV $tsv_in --kmerList $kmer_list --outputTSV $features_out --k $k_val
+./sortedKmers_to_features.py --inputTSV $tsv_in --kmerList $sort_kmer_list --outputTSV $features_out --k $k_val

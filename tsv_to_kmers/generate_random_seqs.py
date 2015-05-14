@@ -43,7 +43,8 @@ def getSeqDistr(infile) :
     for c in line.strip() :
       if c not in ret :
         ret[c] = 1
-      else ret[c] += 1
+      else :
+        ret[c] += 1
   tot_chars = sum(ret.values())
   for k in ret :
     ret[k] = float(ret[k]) / tot_chars

@@ -26,7 +26,7 @@ def main() :
 
   k = int(args.k)
 
-  with open(kmerList) as f:
+  with open(args.kmerList) as f:
     sortedKmerList = filter(lambda x: len(x.strip()) > 0, f.read().splitlines())
 
   seqsToCounts(k, sortedKmerList, args.inputTSV, args.outputTSV)
