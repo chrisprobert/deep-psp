@@ -89,7 +89,7 @@ do
   #
   # Get random sequence distribution
   #
-  cat $seq_file | fold -w 1 | sort | uniq -c > $seq_distr
+  cat $seq_file | fold -w 1 | sort | uniq -c > $seq_distr_annot
 
 
   #
