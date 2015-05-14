@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import numpy as np
 
 """
 File: generate_random_seqs.py
@@ -11,31 +12,31 @@ and the same number of sequences as the original set.
 
 """
 
-
 def main() :
   """
   Read command line arguments and invoke filterTSV()
   """
 
   parser = argparse.ArgumentParser(description='Filter a uniprot TSV based on annotation')
-  parser.add_argument('--inputSeqs', help='Input sequence file. Should only contain sequences.', required=True)
-  parser.add_argument('--outputSeqs', help='output sequence file', required=True)
+  parser.add_argument('--inputSeqs', help='Input sequence file. Should only contain sequences. One sequence per line.', required=True)
+  parser.add_argument('--outputSeqs', help='Output sequence file.', required=True)
   args = parser.parse_args()
 
-  allKmers(k=int(args.k), input_tsv=args.inputTSV, output_path=args.kmerList)
+  distr = getSeqDistr(args.inputSeqs)
+  getRandomSeqs(distr, args.inputSeqs, args.outputSeqs)
 
-def allKmers(k, input_tsv, output_path) :
+def getRandomSeqs(distr, infile, outfile) :
+  chars = distr.keys()
+  probs = distr.values()
 
-  """
-  Reduce each sequence to a set of counts
-  """
+  with open(infile) as f_in :
+    with open(outfile, 'w') as f_out :
+      for line in f_in :
+        for i in len(line.strip()) :
+          indx = np.argmax(np.random.multinomial(1, probs))
+          f_out.write(chars[indx])
+        f_out.write('\n')
 
-  with open(output_path, 'w') as out_f :
-    for line in open(input_tsv) :
-      l = line.strip().split('\t')
-      if len(l) < 4 : continue
-      for kmer in list(getKmerCounts(l[3], k).elements()) :
-        out_f.write(kmer + '\n')
 
 def getSeqDistr(infile) :
   ret = {}
