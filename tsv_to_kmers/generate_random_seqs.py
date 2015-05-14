@@ -32,7 +32,7 @@ def getRandomSeqs(distr, infile, outfile) :
   with open(infile) as f_in :
     with open(outfile, 'w') as f_out :
       for line in f_in :
-        for i in len(line.strip()) :
+        for i in range(len(line.strip())) :
           indx = np.argmax(np.random.multinomial(1, probs))
           f_out.write(chars[indx])
         f_out.write('\n')

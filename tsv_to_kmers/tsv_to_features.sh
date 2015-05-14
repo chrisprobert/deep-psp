@@ -57,7 +57,7 @@ do
   #
   # Get the sequences from the tsv file
   #
-  cat $tsv_in | cut -f4 > $seq_file
+  cat $tsv_in | cut -f4 | tr '[:lower:]' '[:upper:]' > $seq_file
 
 
   #
@@ -69,7 +69,7 @@ do
   #
   # Sort the kmer file by unique kmer counts
   #
-  cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n 200 > $sort_kmer_list
+  cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n 1000 > $sort_kmer_list
 
 
   #
