@@ -18,8 +18,9 @@ def main() :
   """
 
   parser = argparse.ArgumentParser(description='Filter a uniprot TSV based on annotation')
-  parser.add_argument('--inputSeqs', help='Input sequence file. Should only contain sequences. One sequence per line.', required=True)
+  parser.add_argument('--seqDistr', help='Input sequence distribution. Should have <count> <letter> format.', required=True)
   parser.add_argument('--outputSeqs', help='Output sequence file.', required=True)
+  parser.add_argument('--inputSeqs', help='Input sequence file. Only used to get length, not sequence content.', required=True)
   args = parser.parse_args()
 
   distr = getSeqDistr(args.inputSeqs)
@@ -39,17 +40,15 @@ def getRandomSeqs(distr, infile, outfile) :
 
 
 def getSeqDistr(infile) :
-  ret = {}
+  dist = {}
   for line in open(infile) :
-    for c in line.strip() :
-      if c not in ret :
-        ret[c] = 1
-      else :
-        ret[c] += 1
-  tot_chars = sum(ret.values())
-  for k in ret :
-    ret[k] = float(ret[k]) / tot_chars
-  return ret
+    l = line.strip().split()
+    if len(l) != 2 : continue
+    dist[l[1]] = float(l[0])
+  tot_chars = sum(dist.values())
+  for k in dist :
+    dist[k] = dist[k] / tot_chars
+  return dist
 
 
 if __name__ == '__main__' : main()
