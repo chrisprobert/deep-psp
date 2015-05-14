@@ -51,7 +51,7 @@ def getSortedKmerList(kmerList, numCts) :
   Sort the kmer list by number of occurances. Return a list of the top numCts kmers in sorted order.
   """
 
-  result = subprocess.check_output(["getSortedKmerList.sh", kmerList, str(numCts)])
+  result = subprocess.check_output(["get_sorted_kmer_list.sh", kmerList, str(numCts)])
   return result.strip().split()
 
 
