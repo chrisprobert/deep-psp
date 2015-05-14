@@ -51,7 +51,7 @@ do
   # Extract this annotation from the uniprot tsv file
   #
   #
-  ./process_tsv.py --inputTSV $uniprot_tsv --outputTSV $tsv_in
+  ./process_tsv.py --inputTSV $uniprot_tsv --outputTSV $tsv_in --annot $annot
 
 
   #
