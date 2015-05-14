@@ -107,10 +107,11 @@ do
 
 
   #
-  # Create shortened versions of features
+  # Create shortened versions of features. Include headers in correct position.
   #
-  shuf -n 100000 $features_out > ${features_out}.100k
-  shuf -n 100000 $random_features_out_annot > ${random_features_out_annot}.100k
-  shuf -n 100000 $random_features_out_bkgrd > ${random_features_out_bkgrd}.100k
+  head -n 100000 $features_out > ${features_out}.100k
+  head -n 100000 $random_features_out_annot > ${random_features_out_annot}.100k
+  head -n 100000 $random_features_out_bkgrd > ${random_features_out_bkgrd}.100k
+
 
 done
