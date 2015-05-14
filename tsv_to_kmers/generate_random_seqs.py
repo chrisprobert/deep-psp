@@ -23,7 +23,7 @@ def main() :
   parser.add_argument('--inputSeqs', help='Input sequence file. Only used to get length, not sequence content.', required=True)
   args = parser.parse_args()
 
-  distr = getSeqDistr(args.inputSeqs)
+  distr = getSeqDistr(args.seqDistr)
   getRandomSeqs(distr, args.inputSeqs, args.outputSeqs)
 
 def getRandomSeqs(distr, infile, outfile) :
