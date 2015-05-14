@@ -19,24 +19,24 @@ def main() :
   """
 
   parser = argparse.ArgumentParser(description='Filter a uniprot TSV based on annotation')
-  parser.add_argument('--inputTSV', help='input TSV file, in format of process_tsv.py', required=True)
+  parser.add_argument('--inputSeqs', help='input sequence file, one sequence per line', required=True)
   parser.add_argument('--kmerList', help='output kmer file', required=True)
   parser.add_argument('--k', help='length of k-mers', required=True, type=int)
   args = parser.parse_args()
 
-  allKmers(k=int(args.k), input_tsv=args.inputTSV, output_path=args.kmerList)
+  allKmers(k=int(args.k), input_seqs=args.inputSeqs, output_path=args.kmerList)
 
-def allKmers(k, input_tsv, output_path) :
+def allKmers(k, input_seqs, output_path) :
 
   """
   Reduce each sequence to a set of counts
   """
 
   with open(output_path, 'w') as out_f :
-    for line in open(input_tsv) :
-      l = line.strip().split('\t')
-      if len(l) < 4 : continue
-      for kmer in list(getKmerCounts(l[3], k).elements()) :
+    for line in open(input_seqs) :
+      l = line.strip()
+      if len(l) < 1 : continue
+      for kmer in list(getKmerCounts(l, k).elements()) :
         out_f.write(kmer + '\n')
       
 
