@@ -29,7 +29,7 @@ export kmer_list=${tsv_in}.kmer_list.txt
 #
 # Process the kmer file
 #
-cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n $num_conts
+cat $kmer_list | sort | uniq -c | sort -rn | awk '{print $2}' | head -n${num_conts}
 
 
 #
