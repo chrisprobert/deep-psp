@@ -13,6 +13,6 @@ OUTPUT_DIR=../../seq_features/
 
 for feature in chain transmembrane-region strand helix
 do
-	grep $feature $UNIPROT_TSV | awk '{if(length($6) > 9) {print $6}}' > ${OUTPUT_DIR}${feature}_seqs.txt
+	grep $feature $UNIPROT_TSV | awk '{if(length($6) > 9) {print $6}}' | tr '[:lower:]' '[:upper:]' > ${OUTPUT_DIR}${feature}_seqs.txt
 done
 
