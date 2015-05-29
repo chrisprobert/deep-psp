@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.cross_validation import train_test_split
 
 R_SEED=42
 
@@ -49,6 +50,11 @@ def createBinaryLabelVector(length, label) :
         return np.ones(length, dtype=int)
     return np.zeros(length, dtype=int)
 
+def createOneHotLabels(length, label) :
+    ar = [1,0] if label == 0 else [0,1]
+    ar = [ar for i in xrange(length)]
+    return np.array(ar)
+
 def loadShuffledData(task_name, num_exs=sys.maxint, bkgrd='global', max_len=100, min_len=10) :
     """
     Loads a shuffled set of (seqs, labels) for the given task.
@@ -60,10 +66,14 @@ def loadShuffledData(task_name, num_exs=sys.maxint, bkgrd='global', max_len=100,
     else :
         seqs_neg = loadFeatureBkgrdSeqs(task_name,num_exs/2)
     seqs = keras.preprocessing.sequence.pad_sequences(seqs_pos + seqs_neg, maxlen=max_len)
-    labels = np.append(createBinaryLabelVector(len(seqs_pos), 1),
-                       createBinaryLabelVector(len(seqs_neg), 0))
+    labels = np.append(createOneHotLabels(len(seqs_pos), 1),
+                       createOneHotLabels(len(seqs_neg), 0), axis=0)
     np.random.seed(R_SEED)
     idxs = np.arange(labels.shape[0])
     np.random.shuffle(idxs)
     seqs, labels = seqs[idxs], labels[idxs]
     return seqs, labels
+
+def getSplitDataset(task_name, num_exs=sys.maxint, bkgrd='global', max_len=100, min_len=10, test_size=0.1) :
+    seqs, labels = loadShuffledData(task_name, num_exs, bkgrd, max_len, min_len)
+    return train_test_split(seqs, labels, test_size=test_size, random_state=R_SEED)
