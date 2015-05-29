@@ -1,9 +1,6 @@
 import numpy as np
-<<<<<<< HEAD
 import sys
-=======
 from sklearn.cross_validation import train_test_split
->>>>>>> bc59b647c9b8ab21eece13c6cec9d01293eb667e
 
 R_SEED=42
 
