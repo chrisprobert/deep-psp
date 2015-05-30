@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from sklearn.cross_validation import train_test_split
+import keras.preprocessing.sequence
 
 R_SEED=42
 

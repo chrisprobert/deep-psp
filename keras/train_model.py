@@ -21,7 +21,7 @@ assert(args.model in models.AllModels)
 
 print('loading dataset')
 # load the input data
-X_train, X_test, y_train, y_test = getSplitDataset('transmembrane-region', num_exs=args.numexs,
+X_train, X_test, y_train, y_test = dataset.getSplitDataset('transmembrane-region', num_exs=args.numexs,
 									bkgrd='global', max_len=100, min_len=10, test_size=0.1)
 
 feature_dim = len(dataset.AAs) + 1
