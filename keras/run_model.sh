@@ -20,7 +20,7 @@ echo ">>using ${NUMEXS} examples"
 echo ">>using ${NUMEPOCHS} epochs"
 echo ">>using taskset: ${TASKSET}"
 
-taskset ${TASKSET} \
+taskset -c ${TASKSET} \
 	python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT --numepochs $NUMEPOCHS > ${OUTPUT}_log.txt
 
 echo ">>Finished running model"
