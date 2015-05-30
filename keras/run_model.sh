@@ -11,11 +11,16 @@ OUTPUT_DIR=${BASEDIR}output/
 MODEL=$1
 OUTPUT=${OUTPUT_DIR}${2}
 NUMEXS=$3
+NUMEPOCHS=$4
+TASKSET=$5
 
 echo ">>running model ${MODEL}"
 echo ">>writing model output to ${OUTPUT}"
 echo ">>using ${NUMEXS} examples"
+echo ">>using ${NUMEPOCHS} epochs"
+echo ">>using taskset: ${TASKSET}"
 
-python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT > ${OUTPUT}_log.txt
+taskset ${TASKSET} \
+	python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT --numepochs $NUMEPOCHS > ${OUTPUT}_log.txt
 
 echo ">>Finished running model"
