@@ -40,9 +40,8 @@ print('fitting model')
 fit_results = model.fit(X_train, y_train, nb_epoch=30, batch_size=32,
           validation_split=0.1, shuffle=True, show_accuracy=True, verbose=2)
 
-fit_results = dict(fit_results)
 print fit_results
-pickle.dump(fit_results, args.outputName + '_fit_results.pkl')
+pickle.dump(fit_results, open(args.outputName + '_fit_results.pkl', 'w'))
 
 print('saving model')
 model.save_weights(args.outputName + '_model_weights')
