@@ -20,6 +20,9 @@ args = parser.parse_args()
 
 assert(args.model in models.AllModels)
 
+print 'using parameters:', vars(args)
+
+
 print '--loading dataset--'
 # load the input data
 X_train, X_test, y_train, y_test = dataset.getSplitDataset('transmembrane-region', num_exs=args.numexs,
