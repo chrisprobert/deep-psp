@@ -14,6 +14,6 @@ OUTPUT=${OUTPUT_DIR}${2}
 echo "running model ${MODEL}"
 echo "writing model output to ${OUTPUT}"
 
-python ${BASEDIR}train_model.py --model $MODEL --numexs 200000 --outputName $OUTPUT > ${OUTPUT}_log.txt
+python ${BASEDIR}train_model.py --model $MODEL --numexs 200 --outputName $OUTPUT > ${OUTPUT}_log.txt
 
 echo "Finished running model"
