@@ -10,10 +10,12 @@ OUTPUT_DIR=${BASEDIR}output/
 
 MODEL=$1
 OUTPUT=${OUTPUT_DIR}${2}
+NUMEXS=$3
 
-echo "running model ${MODEL}"
-echo "writing model output to ${OUTPUT}"
+echo ">>running model ${MODEL}"
+echo ">>writing model output to ${OUTPUT}"
+echo ">>using ${NUMEXS} examples"
 
-python ${BASEDIR}train_model.py --model $MODEL --numexs 200 --outputName $OUTPUT > ${OUTPUT}_log.txt
+python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT > ${OUTPUT}_log.txt
 
-echo "Finished running model"
+echo ">>Finished running model"

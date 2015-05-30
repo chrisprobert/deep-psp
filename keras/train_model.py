@@ -44,6 +44,6 @@ print fit_results
 pickle.dump(fit_results, open(args.outputName + '_fit_results.pkl', 'w'))
 
 print('saving model')
-model.save_weights(args.outputName + '_model_weights')
+model.save_weights(args.outputName + '_model_weights.hdf5')
 
 
