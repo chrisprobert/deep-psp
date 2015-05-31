@@ -21,6 +21,6 @@ echo ">>using ${NUMEPOCHS} epochs"
 echo ">>using taskset: ${TASKSET}"
 
 taskset -c ${TASKSET} \
-	python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT --numepochs $NUMEPOCHS > ${OUTPUT}_log.txt
+	python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS --outputName $OUTPUT --numepochs $NUMEPOCHS --bkgrd feature > ${OUTPUT}_log.txt
 
 echo ">>Finished running model"
