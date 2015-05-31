@@ -20,8 +20,7 @@ args = parser.parse_args()
 
 assert(args.model in models.AllModels)
 
-print 'using parameters:', vars(args)
-
+print 'using parameters:\n', vars(args)
 
 print '--loading dataset--'
 # load the input data
@@ -30,11 +29,7 @@ X_train, X_test, y_train, y_test = dataset.getSplitDataset('transmembrane-region
 
 feature_dim = len(dataset.AAs) + 1
 
-if args.model == 'RNN' :
-	model = models.simpleRNN(input_dim=feature_dim)
-elif args.model == 'LSTM' :
-	model = models.simpleLSTM(input_dim=feature_dim)
-
+model = models.getModel(args.model, feature_dim)
 
 print '--compiling model--'
 model.compile(loss='categorical_crossentropy', optimizer='adagrad')
