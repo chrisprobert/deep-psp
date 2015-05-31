@@ -45,12 +45,12 @@ def RNN512(input_dim) :
     return model
 
 def GRU512(input_dim) :
-	model = keras.models.Sequential()
+    model = keras.models.Sequential()
     model.add(Embedding(input_dim, 512))
     model.add(Dropout(0.5))
-	keras.layers.recurrent.GRU(512, 256, truncate_gradient=10)
-	model.add(Dropout(0.5))
-	model.add(Dense(256, 128, init='uniform', activation='relu'))
+    keras.layers.recurrent.GRU(512, 256, truncate_gradient=10)
+    model.add(Dropout(0.5))
+    model.add(Dense(256, 128, init='uniform', activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(128, 2, init='uniform', activation='softmax'))
     return model
@@ -59,5 +59,5 @@ Models = {'RNN':simpleRNN, 'LSTM':simpleLSTM, 'LSTM512':LSTM512, 'RNN512':RNN512
 AllModels = Models.keys()
 
 def getModel(model_name, input_dim) :
-	return Models[model_name](input_dim)
+    return Models[model_name](input_dim)
 
