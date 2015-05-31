@@ -15,9 +15,9 @@ def simpleLSTM(input_dim) :
 
 def LSTM512(input_dim) :
     model = keras.models.Sequential()
-    model.add(Embedding(input_dim, 512))
+    model.add(Embedding(input_dim, 10))
     model.add(Dropout(0.25))
-    model.add(LSTM(512, 256, activation='sigmoid', inner_activation='hard_sigmoid'))
+    model.add(LSTM(10, 256, activation='sigmoid', inner_activation='hard_sigmoid'))
     model.add(Dropout(0.5))
     model.add(Dense(256, 128, init='uniform', activation='relu'))
     model.add(Dropout(0.5))
@@ -35,9 +35,9 @@ def simpleRNN(input_dim) :
 
 def RNN512(input_dim) :
     model = keras.models.Sequential()
-    model.add(Embedding(input_dim, 512))
-    model.add(Dropout(0.5))
-    model.add(SimpleDeepRNN(512, 256, depth=10, truncate_gradient=10))
+    model.add(Embedding(input_dim, 10))
+    model.add(Dropout(0.25))
+    model.add(SimpleDeepRNN(10, 256, depth=20, truncate_gradient=10))
     model.add(Dropout(0.5))
     model.add(Dense(256, 128, init='uniform', activation='relu'))
     model.add(Dropout(0.5))
@@ -46,9 +46,9 @@ def RNN512(input_dim) :
 
 def GRU512(input_dim) :
     model = keras.models.Sequential()
-    model.add(Embedding(input_dim, 512))
-    model.add(Dropout(0.5))
-    keras.layers.recurrent.GRU(512, 256, truncate_gradient=10)
+    model.add(Embedding(input_dim, 10))
+    model.add(Dropout(0.25))
+    model.add(keras.layers.recurrent.GRU(10, 256, truncate_gradient=10))
     model.add(Dropout(0.5))
     model.add(Dense(256, 128, init='uniform', activation='relu'))
     model.add(Dropout(0.5))
