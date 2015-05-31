@@ -10,7 +10,8 @@ def simpleLSTM(input_dim) :
     model.add(Embedding(input_dim, 256))
     model.add(LSTM(256, 128, activation='sigmoid', inner_activation='hard_sigmoid'))
     model.add(Dropout(0.5))
-    model.add(Dense(128, 2, init='uniform', activation='sigmoid'))
+    model.add(Dense(128, 2, init='uniform'))
+    model.add(Activation('sigmoid'))
     return model
 
 def LSTM512(input_dim) :
