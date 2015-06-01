@@ -17,6 +17,7 @@ parser.add_argument('--numexs', help='Number of examples', required=True, type=i
 parser.add_argument('--numepochs', help='Number of epochs', required=True, type=int)
 parser.add_argument('--outputName', help='unique output path/name', required=True)
 parser.add_argument('--bkgrd', help='sequence background global/feature', required=False, default='global')
+parser.add_argument('--task', help='task name', required=False, default='transmembrane-region')
 args = parser.parse_args()
 
 assert(args.model in models.AllModels)
@@ -26,7 +27,7 @@ print 'using parameters:\n', vars(args)
 
 print '--loading dataset--'
 # load the input data
-X_train, X_test, y_train, y_test = dataset.getSplitDataset('transmembrane-region', num_exs=args.numexs,
+X_train, X_test, y_train, y_test = dataset.getSplitDataset(task_name=args.task, num_exs=args.numexs,
 									bkgrd=args.bkgrd, max_len=100, min_len=10, test_size=0.1)
 
 feature_dim = len(dataset.AAs) + 1
