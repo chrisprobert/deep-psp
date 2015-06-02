@@ -24,6 +24,6 @@ echo ">>using task: helix"
 taskset -c ${TASKSET} \
 	python ${BASEDIR}train_model.py --model $MODEL --numexs $NUMEXS \
 		--outputName $OUTPUT --numepochs $NUMEPOCHS \
-		--bkgrd global --task helix > ${OUTPUT}_log.txt
+		--bkgrd feature --task helix > ${OUTPUT}_log.txt
 
 echo ">>Finished running model"
